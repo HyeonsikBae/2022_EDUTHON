@@ -12,6 +12,13 @@
 # include   <arpa/inet.h>
 # include   <time.h>
 
+# include	<mach/vm_statistics.h>
+# include	<mach/mach_types.h>
+# include	<mach/mach_init.h>
+# include	<mach/mach_host.h>
+
 # define    PORT 		9999
+
+float		get_cpu_status();
 
 #endif
