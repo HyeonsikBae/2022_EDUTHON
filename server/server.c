@@ -79,7 +79,7 @@ int			main(void)
 	// 1초에 한번씩 데이터 송부
 	while(1)
 	{
-		printf("CPU Load : %.2f%%\n", GetCPULoad());
+		// printf("CPU Load : %.2f%%\n", GetCPULoad());
 		// 데이터 지정 (항상 동일한 크기이어야 함)
 		sprintf(recv_buffer, getRandNum());
 		printf("send data : %s\n", recv_buffer);
