@@ -1,19 +1,11 @@
-# include   <stdio.h>
-# include	<stdlib.h>
-# include   <string.h>
-# include   <unistd.h>
-# include   <sys/types.h>
-# include   <sys/socket.h>
-# include   <netinet/in.h>
-# include   <arpa/inet.h>
- 
-# define    PORT  9999
+# include	"new_client.h"
  
 int         main(void)
 {
 	int		sock,
 			recv_len,
-			addr_len;
+			addr_len,
+			nums[12];
 	char	recv_buffer[1024] = {0, };
 	struct sockaddr_in
 			addr,
@@ -46,7 +38,8 @@ int         main(void)
 	{
 		if (recv(sock, recv_buffer, 4, 0) > 0) {
 			int num = atoi(recv_buffer);
-			printf("CPU Usage : %d%%\n", num);
+			// printf("CPU Usage : %d%%\n", num);
+			print_chart(&nums);
 		}
 	}
 
