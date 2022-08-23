@@ -19,6 +19,6 @@
 
 # define    PORT 		9999
 
-float		get_cpu_status();
+int		get_cpu_status();
 
 #endif

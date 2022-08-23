@@ -1,28 +1,16 @@
-# include   <stdio.h>
-# include   <string.h>
-# include   <unistd.h>
-# include   <stdlib.h>
-# include   <sys/types.h>
-# include   <sys/socket.h>
-# include   <netinet/in.h>
-# include   <arpa/inet.h>
-# include   <time.h>
+# include	"server.h"
  
 # define    PORT  9999
 
-char*		getRandNum(void)
+char*		int_to_str(int num)
 {
-	int		num,
-			len = 3;
+	int		len = 3;
 	char*	str;
 
 	str = (char*)malloc(sizeof(char) * len);
 	for (int i = 0; i < len; i++)
 		str[i] = '0';
-
-	srand(time(NULL));
-	num = rand() % 101;
-
+	
 	if (num < 10)
 		str[2] = '0' + num;
 	else if (num < 100)
@@ -36,6 +24,16 @@ char*		getRandNum(void)
 	}
 
 	return	str;
+}
+
+char*		getRandNum(void)
+{
+	int		num;
+
+	srand(time(NULL));
+	num = rand() % 101;
+
+	return	num;
 }
 
 int			main(void)
@@ -79,9 +77,7 @@ int			main(void)
 	// 1초에 한번씩 데이터 송부
 	while(1)
 	{
-		// printf("CPU Load : %f%%\n", get_cpu_status());
-		// 데이터 지정 (항상 동일한 크기이어야 함)
-		sprintf(recv_buffer, getRandNum());
+		sprintf(recv_buffer, int_to_str(get_cpu_status()));
 		printf("send data : %s\n", recv_buffer);
 		sendto(sock, recv_buffer, strlen(recv_buffer), 0, (struct sockaddr *)&addr, sizeof(addr));
 		usleep(1000 * 1000);
