@@ -7,9 +7,6 @@
 static unsigned long long _previousTotalTicks = 0;
 static unsigned long long _previousIdleTicks = 0;
 
-
-
-
 float CalculateCPULoad(unsigned long long idleTicks, unsigned long long totalTicks)
 {
   unsigned long long totalTicksSinceLastTime = totalTicks-_previousTotalTicks;
@@ -39,7 +36,7 @@ int main(int argc, const char * argv[]) {
     mach_msg_type_number_t count;
     vm_statistics64_data_t vm_stats;
 
-    mach_port = mach_host_self();
+    mach_port = mach_host_self(); // Returns the host self port
     count = sizeof(vm_stats) / sizeof(natural_t);
     if (KERN_SUCCESS == host_page_size(mach_port, &page_size) &&
         KERN_SUCCESS == host_statistics64(mach_port, HOST_VM_INFO,
