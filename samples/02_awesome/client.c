@@ -32,9 +32,9 @@ int main(void)
 	{
 		if (recv(sock, (void*)&user_data, sizeof(user_data), 0) > 0)
 		{
-			// ft_chart_horizontal(datas, (int)(user_data).user);
+			ft_chart_horizontal(datas, (int)(user_data).user);
 			// ft_chart_vertical(datas, (int)(user_data).user);
-			ft_chart_table(user_data);
+			// ft_chart_table(user_data);
 		}
 	}
 	close(sock);
