@@ -4,7 +4,7 @@ int main(void)
 {
 	int sock, recv_len, addr_len;
 	struct sockaddr_in addr, client_addr;
-	s_cpu_data user_data;
+	t_cpu_data user_data;
 	int		*datas = malloc(sizeof(int) * 11);
 	
 	// set socket fd
@@ -32,8 +32,9 @@ int main(void)
 	{
 		if (recv(sock, (void*)&user_data, sizeof(user_data), 0) > 0)
 		{
-			ft_chart_horizontal(datas, (int)(user_data).user);
+			// ft_chart_horizontal(datas, (int)(user_data).user);
 			// ft_chart_vertical(datas, (int)(user_data).user);
+			ft_chart_table(user_data);
 		}
 	}
 	close(sock);

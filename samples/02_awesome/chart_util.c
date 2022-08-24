@@ -1,15 +1,20 @@
 # include	"client.h"
 
+void		ft_color_printf(char* color, char* str)
+{
+	printf("%s%s%s", color, str, ASCII_RES);
+}
+
 void		ft_color_print(int num, char* str)
 {
 	if (num < 25)
-		printf("%s%s%s", BACKG_WHI, str, ASCII_RES);
+		ft_color_printf(BACKG_WHI, str);
 	else if (num < 50)
-		printf("%s%s%s", BACK_YELLOW, str, ASCII_RES);
+		ft_color_printf(BACKG_YEL, str);
 	else if (num < 75)
-		printf("%s%s%s", BACK_ORANGE, str, ASCII_RES);
+		ft_color_printf(BACKG_ORA, str);
 	else
-		printf("%s%s%s", BACK_RED, str, ASCII_RES);
+		ft_color_printf(BACKG_RED, str);
 }
 
 void 		ft_number_print(int num)
