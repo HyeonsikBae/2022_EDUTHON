@@ -4,7 +4,7 @@ int main(void)
 {
 	int sock, recv_len, addr_len;
 	struct sockaddr_in addr, client_addr;
-	s_cpu_data user_data;
+	t_cpu_data user_data;
 	
 	// set socket fd
 	if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)

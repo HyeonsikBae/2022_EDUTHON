@@ -1,32 +1,49 @@
 # include	"server.h"
 
-s_cpu_data sample_cpu_data() {
-  static float samples[7][3] = {
-    {6.58, 8.98, 84.43},
-    {6.38, 5.13, 88.47},
-    {17.19, 5.65, 68.97},
-    {21.86, 13.82, 72.47},
-    {26.30, 7.70, 66.61},
-    {24.36, 5.64, 69.99},
-    {16.16, 5.20, 78.80},
-  };
-  static int idx = 0;
-  s_cpu_data rtn;
-  rtn.user = samples[idx][0];
-  rtn.sys = samples[idx][1];
-  rtn.idle = samples[idx][2];
-  idx++;
-  if (idx > 6) {
-    idx = 0;
-  }
-  return rtn;
+t_cpu_data	sample_cpu_data() {
+	static float samples[20][3] = {
+		{6.58, 8.98, 84.43},
+		{6.38, 5.13, 88.47},
+		{17.19, 5.65, 68.97},
+		{21.86, 13.82, 72.47},
+		{26.30, 7.70, 66.61},
+
+		{36.40, 7.70, 56.51},
+		{34.00, 7.70, 59.01},
+		{32.36, 5.64, 62.99},
+		{24.16, 5.20, 70.80},
+		{24.30, 7.70, 70.61},
+
+		{44.61, 5.51, 50.51},
+		{60.40, 7.70, 32.51},
+		{67.40, 7.70, 25.51},
+		{77.40, 7.70, 15.51},
+		{67.40, 7.70, 25.51},
+
+		{44.61, 5.51, 50.51},
+		{36.40, 7.70, 56.51},
+		{34.00, 7.70, 59.01},
+		{26.30, 7.70, 66.61},
+		{21.86, 13.82, 72.47},
+	};
+
+	static int idx = 0;
+	t_cpu_data rtn;
+	rtn.user = samples[idx][0];
+	rtn.sys = samples[idx][1];
+	rtn.idle = samples[idx][2];
+	++idx;
+	if (idx > 19) {
+		idx = 0;
+	}
+	return rtn;
 }
 
 int			main()
 {
 	int		sock, recv_len, addr_len, top_fd;
 	struct sockaddr_in addr, client_addr;
-	s_cpu_data user_data;
+	t_cpu_data user_data;
 
 	// set socket fd
 	if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
@@ -53,7 +70,7 @@ int			main()
       user_data.idle
     );
     fflush(stdout);
-    sendto(sock, (void*)&user_data, sizeof(s_cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
+    sendto(sock, (void*)&user_data, sizeof(t_cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
     usleep(1000 * 1000);
 	}
 	close(sock);

@@ -25,7 +25,7 @@ typedef struct cpu_data {
 	float user;
 	float sys;
 	float idle;
-} s_cpu_data;
+} t_cpu_data;
 
 int		get_cpu_status();
 

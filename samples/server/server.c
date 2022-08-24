@@ -86,7 +86,7 @@ int			main(int argc, char **argv, char **envp)
 {
 	int		sock, recv_len, addr_len, top_fd;
 	struct sockaddr_in addr, client_addr;
-	s_cpu_data user_data;
+	t_cpu_data user_data;
 
 	signal(SIGINT, kill_child);
 	signal(SIGQUIT, kill_child);
@@ -136,7 +136,7 @@ int			main(int argc, char **argv, char **envp)
 					user_data.idle
 				);
 				fflush(stdout);
-				sendto(sock, (void*)&user_data, sizeof(s_cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
+				sendto(sock, (void*)&user_data, sizeof(t_cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
 			}
 		}
 	}
