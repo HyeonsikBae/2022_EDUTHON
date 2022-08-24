@@ -39,7 +39,8 @@ int         main(void)
 	while (1)
 	{
 		if (recv(sock, (void*)&user_data, sizeof(user_data), 0) > 0)
-			print_chart(datas, (int)(user_data).user);
+			ft_chart_horizontal(datas, (int)(user_data).user);
+			// ft_chart_vertical(datas, (int)(user_data).user);
 	}
 	free(datas);
 	close(sock);

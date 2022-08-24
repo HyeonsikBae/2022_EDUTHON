@@ -25,6 +25,11 @@ struct cpu_data {
 	float idle;
 };
 
-int			print_chart(int *nums, int num);
+void		ft_color_print(int num, char* str);
+void 		ft_number_print(int num);
+void		ft_shift_array(int* nums, int new);
+
+int			ft_chart_vertical(int *nums, int num);
+int			ft_chart_horizontal(int *nums, int num);
 
 #endif
