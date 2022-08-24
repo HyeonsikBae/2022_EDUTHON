@@ -13,4 +13,10 @@
 
 # define    PORT 		9999
 
+struct cpu_data {
+	float user;
+	float sys;
+	float idle;
+};
+
 #endif

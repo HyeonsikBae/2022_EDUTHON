@@ -19,6 +19,12 @@
 # define    BACK_RED    "\x1b[48;5;196m"
 # define    PORT 		9999
 
+struct cpu_data {
+	float user;
+	float sys;
+	float idle;
+};
+
 int			print_chart(int *nums, int num);
 
 #endif
