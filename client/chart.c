@@ -1,10 +1,15 @@
 # include   "client.h"
 
-void		ft_color_print(
-	char*	color,
-	char*	str
-) {
-	printf("%s%s%s", color, str, ASCII_RES);
+void		ft_color_print(int num) {
+	if (num < 25)
+		printf("%s%s%s", BACKG_WHI, "    ", ASCII_RES);
+	else if (num < 50)
+		printf("%s%s%s", BACK_YELLOW, "    ", ASCII_RES);
+	else if (num < 75)
+		printf("%s%s%s", BACK_ORANGE, "    ", ASCII_RES);
+	else
+		printf("%s%s%s", BACK_RED, "    ", ASCII_RES);
+	
 }
 
 void 		ft_number_print(
@@ -31,9 +36,7 @@ void		ft_clear_screen()
 }
 
 
-void		ft_shift_array(
-	int*	nums,
-	int		new)
+void		ft_shift_array(int* nums, int new)
 {
 	for (int i = 1; i < 10; i++)
 		*(nums + i) = *(nums + i + 1);
@@ -41,8 +44,7 @@ void		ft_shift_array(
 }
 
 
-void		ft_chart_map(
-	int		nums[])
+void		ft_chart_map(int nums[])
 {
 	int		grid = 5;
 	int		level = 20;
@@ -52,8 +54,9 @@ void		ft_chart_map(
 		printf("┃ ");
 		for (int row = 1; row < 11; row++)
 		{
-			if ((nums[row] / 5) >= level)
-				ft_color_print(BACKG_WHI, "    ");
+			if ((nums[row] / 5) >= level){
+				ft_color_print(nums[row]);
+			}
 			else
 				printf("    ");
 		}
@@ -63,28 +66,17 @@ void		ft_chart_map(
 	printf("┗");
 	for (int col = 0; col < 20; col++)
 		printf("━━");
-	printf("\n");
+	printf("\n ");
 	for (int i = 1; i < 11; i++)
 		ft_number_print(nums[i]);
 	printf("\n");
 }
 
 
-int			print_chart(int *nums)
+int			print_chart(int *nums, int num)
 {
-	srand(time(NULL));
-	nums[0] = 0;
-	nums[11] = 0;
-    for (int i = 1; i < 11; i++)
-    	nums[i] = ft_get_rand();
-
-	while(1)
-	{
-		system("clear");
-		ft_shift_array(nums, ft_get_rand());
-    	ft_chart_map(nums);
-		usleep(1000 * 1000);
-	}
+	system("clear");
+	ft_shift_array(nums, num);
+  ft_chart_map(nums);
 	return (0);
-
 }

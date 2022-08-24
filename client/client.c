@@ -1,15 +1,17 @@
 # include	"client.h"
- 
+
+struct cpu_data {
+	float user;
+	float sys;
+	float idle;
+};
+
 int         main(void)
 {
-	int		sock,
-			recv_len,
-			addr_len,
-			nums[12];
-	char	recv_buffer[1024] = {0, };
-	struct sockaddr_in
-			addr,
-			client_addr;
+	int		sock, recv_len, addr_len;
+	int *datas = malloc(sizeof(int) * 11);
+	struct sockaddr_in	addr, client_addr;
+	struct cpu_data*		user_data = malloc(sizeof(struct cpu_data));
 	
 	// 소켓 fd 지정
 	if ((sock = socket(
@@ -34,15 +36,16 @@ int         main(void)
 		return 1;
 	}
 
+	memset(datas, 0, 10);
 	while (1)
 	{
-		if (recv(sock, recv_buffer, 4, 0) > 0) {
-			int num = atoi(recv_buffer);
-			// printf("CPU Usage : %d%%\n", num);
-			print_chart(&nums);
+		if (recv(sock, (void*)user_data, sizeof(struct cpu_data), 0) > 0) {
+			//printf("user : %.2f%%,\tsys : %.2f%%,\tidle : %.2f%%\n", (user_data)->user, (user_data)->sys, (user_data)->idle);
+			print_chart(datas, (int)(user_data)->user);
 		}
 	}
 
+	free(datas);
 	close(sock);
 
 	return 0;

@@ -14,9 +14,11 @@
 
 # define    BACKG_WHI   "\x1b[48;5;7m"
 # define    ASCII_RES   "\x1b[1;0m"
-
+# define    BACK_YELLOW "\x1b[48;5;226m"
+# define    BACK_ORANGE "\x1b[48;5;208m"
+# define    BACK_RED    "\x1b[48;5;196m"
 # define    PORT 		9999
 
-int			print_chart(int *nums);
+int			print_chart(int *nums, int num);
 
 #endif
