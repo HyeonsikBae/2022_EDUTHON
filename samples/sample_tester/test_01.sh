@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 1. server, client build
-clang ../samples/client/client.c -o client -Werror -Wextra
+clang ../client/client.c -o client -Werror -Wextra
 clang ../01_now_you_see_me/server.c -o server -Werror -Wextra
 
 ret=$?

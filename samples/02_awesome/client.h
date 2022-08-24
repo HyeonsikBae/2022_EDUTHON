@@ -2,7 +2,7 @@
 # define	CLIENT_H
 
 # include   <stdio.h>
-# include	<stdlib.h>
+# include   <stdlib.h>
 # include   <string.h>
 # include   <unistd.h>
 # include   <time.h>
@@ -19,11 +19,11 @@
 # define    BACK_RED    "\x1b[48;5;196m"
 # define    PORT 		9999
 
-struct cpu_data {
+typedef struct cpu_data {
 	float user;
 	float sys;
 	float idle;
-};
+} s_cpu_data;
 
 void		ft_color_print(int num, char* str);
 void 		ft_number_print(int num);

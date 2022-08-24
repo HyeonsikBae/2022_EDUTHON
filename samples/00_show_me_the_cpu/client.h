@@ -13,10 +13,10 @@
 
 # define    PORT 		9999
 
-struct cpu_data {
+typedef struct cpu_data {
 	float user;
 	float sys;
 	float idle;
-};
+} s_cpu_data;
 
 #endif

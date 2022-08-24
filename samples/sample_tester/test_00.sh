@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 1. server, client build
-clang ../samples/client/client.c -o client -Werror -Wextra
-clang ../01_now_you_see_me/server.c -o server -Werror -Wextra
+clang ../server/server.c -o server -Werror -Wextra
+clang ../00_show_me_the_cpu/client.c -o client -Werror -Wextra
 
 ret=$?
 if [ $ret -eq 0 ]; then

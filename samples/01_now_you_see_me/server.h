@@ -17,13 +17,15 @@
 # include	<mach/mach_init.h>
 # include	<mach/mach_host.h>
 
+# include <signal.h>
+
 # define    PORT 		9999
 
-struct cpu_data {
+typedef struct cpu_data {
 	float user;
 	float sys;
 	float idle;
-};
+} s_cpu_data;
 
 int		get_cpu_status();
 

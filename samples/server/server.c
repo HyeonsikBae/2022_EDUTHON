@@ -1,6 +1,17 @@
 # include	"server.h"
 
-# define    PORT  9999
+static pid_t child_pid = -1;
+
+// 고아 프로세스를 제거하기 위함.
+void			kill_child(int code)
+{
+	(void)code;
+	int status;
+  if (child_pid != -1) {
+		kill(child_pid, SIGKILL);
+	}
+  exit(0);
+}
 
 int			ft_exec(char **argv, int i, int o, char **envp)
 {
@@ -22,7 +33,9 @@ int			ft_exec(char **argv, int i, int o, char **envp)
 		if (execve(argv[0], argv, envp) == -1) {
 			exit(1);
 		}
-	}
+	} else {
+    child_pid = pid;
+  }
 	return (rtn);
 }
 
@@ -32,7 +45,7 @@ int			run_cmd(char **argv, int len, char **envp) {
 	int		pair[2][2];
 
 	if ((pipe(pair[0]) == -1) || (pipe(pair[1]) == -1))
-    	return -1;
+			return -1;
 	if (strs == NULL)
 		return -1;
 	for (int i = 0; i < len; i++)
@@ -40,7 +53,7 @@ int			run_cmd(char **argv, int len, char **envp) {
 	strs[len] = NULL;
 	rtn = ft_exec(strs, pair[0][0], pair[1][1], envp);
 	if (rtn == -1)
-    	return -1;
+			return -1;
 	free(strs);
 	return (pair[1][0]);
 }
@@ -71,15 +84,14 @@ char*		int_to_str(int num)
 
 int			main(int argc, char **argv, char **envp)
 {
-	int		sock,
-			recv_len,
-			addr_len,
-			top_fd;
-	struct sockaddr_in
-			addr,
-			client_addr;
-	struct cpu_data*
-			user_data = malloc(sizeof(struct cpu_data));
+	int		sock, recv_len, addr_len, top_fd;
+	struct sockaddr_in addr, client_addr;
+	s_cpu_data user_data;
+
+	signal(SIGINT, kill_child);
+	signal(SIGQUIT, kill_child);
+
+	// for top
 	char*	cmd = "/usr/bin/top";
 	char*	custom_argv[] = {cmd, NULL};
 	char	buf[4097] = {0, };
@@ -105,30 +117,27 @@ int			main(int argc, char **argv, char **envp)
 	// 소켓 IP, Port 지정
 	memset(&addr, 0x00, sizeof(addr));
 	addr.sin_family = AF_INET;
-	//addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	addr.sin_addr.s_addr = inet_addr("255.255.255.255");
 	addr.sin_port = htons(PORT);
-	// printf("data frame size : %lu\n", sizeof(struct cpu_data));
-	// 1초에 한번씩 데이터 송부
 	while (1) {
 		if (read(top_fd, buf, 4096) > 0) {
-    		char* pos_start = strstr(buf, "CPU usage");
-      		char* pos_end = (pos_start != NULL) ? strstr(pos_start, "SharedLibs") : NULL;
-      		if (pos_end != NULL) {
-        		char* pos_start = strstr(buf, "CPU usage: ");
-        		(user_data)->user = atof(pos_start + 11);
-        		char* sys_start = strstr(buf, "user, ");
-        		(user_data)->sys = atof(sys_start + 6);
-        		char* idle_start = strstr(buf, "sys, ");
-        		(user_data)->idle = atof(idle_start + 5);
-        printf("user : %.2f%%, sys : %.2f%%, idle : %.2f%%\n",
-          (user_data)->user,
-          (user_data)->sys,
-          (user_data)->idle
-        );
+			char* pos_start = strstr(buf, "CPU usage");
+			char* pos_end = (pos_start != NULL) ? strstr(pos_start, "SharedLibs") : NULL;
+			if (pos_end != NULL) {
+				char* pos_start = strstr(buf, "CPU usage: ");
+				user_data.user = atof(pos_start + 11);
+				char* sys_start = strstr(buf, "user, ");
+				user_data.sys = atof(sys_start + 6);
+				char* idle_start = strstr(buf, "sys, ");
+				user_data.idle = atof(idle_start + 5);
+				printf("user : %.2f%%, sys : %.2f%%, idle : %.2f%%\n",
+					user_data.user,
+					user_data.sys,
+					user_data.idle
+				);
 				fflush(stdout);
-				sendto(sock, (void*)user_data, sizeof(struct cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
-      }
+				sendto(sock, (void*)&user_data, sizeof(s_cpu_data), 0, (struct sockaddr *)&addr, sizeof(addr));
+			}
 		}
 	}
 	close(sock);
