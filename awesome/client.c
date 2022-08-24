@@ -40,16 +40,10 @@ int         main(void)
 	while (1)
 	{
 		if (recv(sock, (void*)&user_data, sizeof(user_data), 0) > 0) {
-			printf("user : %.2f%%,\tsys : %.2f%%,\tidle : %.2f%%\n", user_data.user, user_data.sys, user_data.idle);
-			//print_chart(datas, (int)(user_data)->user);
+			print_chart(datas, (int)(user_data).user);
 		}
-    fflush(stdout);
-  //printf("Starting");
-  //return 0;
 	}
-
 	free(datas);
 	close(sock);
-
 	return 0;
 }
